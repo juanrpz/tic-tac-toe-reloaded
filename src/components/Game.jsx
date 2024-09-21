@@ -88,7 +88,7 @@ export function Game() {
                     <TurnModal start={aiTurn===null} setAiTurn={handleAiTurnChange} />
                 </section>
             </main>
-            { IS_DEVELOPMENT&&<Footer movimiento={moveIA(board,5,TURNS.O,movimientos.slice())} movimientos={movimientos} />}
+            { IS_DEVELOPMENT&&<Footer movimiento={moveIA(board,3,aiTurn,movimientos.slice())} movimientos={movimientos} aiTurn={aiTurn}/> }
         </>
     )
 }
