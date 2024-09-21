@@ -23,5 +23,5 @@ export const Board=({board,updateBoard,indexOpacidad})=>{
 Board.propTypes = {
     board: PropTypes.arrayOf(PropTypes.string).isRequired,
     updateBoard: PropTypes.func.isRequired,
-    indexOpacidad: PropTypes.number.isRequired,
+    indexOpacidad: PropTypes.number,
 }

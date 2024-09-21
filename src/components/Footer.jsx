@@ -1,5 +1,3 @@
-import { TURNS } from "../constants"
-
 export function Footer({movimiento, movimientos, aiTurn}){
     return (
         <footer className='footer'>
