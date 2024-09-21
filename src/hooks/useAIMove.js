@@ -9,7 +9,7 @@ export const useAIMove =({turn, board, movimientos, updateBoard})=>{
         if(turn===aiTurn){
             setTimeout(() => {
                 const move=moveIA(board,aiMaxDepth,aiTurn,movimientos);
-                updateBoard(move.posicion);
+                updateBoard(move.posicion,true);
             }, 500);
         }
     },[turn,board,aiTurn])

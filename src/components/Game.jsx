@@ -30,8 +30,8 @@ export function Game() {
         return movimientosFromStorage?JSON.parse(movimientosFromStorage):[];
     });
 
-    const updateBoard=(index)=>{
-        if(board[index] || winner) return;
+    const updateBoard=(index,isAiMove=false)=>{
+        if(board[index] || winner || (aiTurn===turn&&!isAiMove)) return;
         const newBoard=board.slice();
         newBoard[index]=turn;
         setBoard(newBoard);
