@@ -30,8 +30,8 @@ export function Game() {
         return movimientosFromStorage?JSON.parse(movimientosFromStorage):[];
     });
 
-    const updateBoard=(index)=>{
-        if(board[index] || winner) return;
+    const updateBoard=(index,isAiMove=false)=>{
+        if(board[index] || winner || (aiTurn===turn&&!isAiMove)) return;
         const newBoard=board.slice();
         newBoard[index]=turn;
         setBoard(newBoard);
@@ -88,7 +88,7 @@ export function Game() {
                     <TurnModal start={aiTurn===null} setAiTurn={handleAiTurnChange} />
                 </section>
             </main>
-            { IS_DEVELOPMENT&&<Footer movimiento={moveIA(board,5,TURNS.O,movimientos.slice())} movimientos={movimientos} />}
+            { IS_DEVELOPMENT&&<Footer movimiento={moveIA(board,3,aiTurn,movimientos.slice())} movimientos={movimientos} aiTurn={aiTurn}/> }
         </>
     )
 }

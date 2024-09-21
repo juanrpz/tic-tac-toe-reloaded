@@ -1,31 +1,42 @@
 import { checkWinner } from "./board";
 import { TURNS, WINNER_COMBOS } from "../constants";
 
-//TODO: Penalizar profundidad
-export function getUtilidad(tablero,usuario,movimientos){
+export function getUtilidad(tablero,usuario,movimientos,lastTurn,depth){
     let valor=0;
     if(checkWinner(tablero,usuario)){
-        return 1000
+        return 1000-depth;
     }else if(checkWinner(tablero,usuario===TURNS.X?TURNS.O:TURNS.X)){
-        return -1000
+        return depth-1000;
     }else if(movimientos.length>4){
         WINNER_COMBOS.forEach(combo=>{
             let count=0;
             combo.forEach(index=>{
-                if(tablero[index]===usuario){
-                    if(movimientos[5]!==index){
-                        count++;
+                if(lastTurn===usuario){
+                    if(tablero[index]===usuario){
+                        if(movimientos[5]!==index){
+                            count++;
+                        }
+                    } else if(tablero[index]!==null){
+                        if(movimientos[4]!==index){
+                            count--;
+                        }
                     }
-                }else if(tablero[index]!==null){
-                    if(movimientos[4]!==index){
-                        count--;
+                }else{
+                    if(tablero[index]===usuario){
+                        if(movimientos[4]!==index){
+                            count++;
+                        }
+                    } else if(tablero[index]!==null){
+                        if(movimientos[5]!==index){
+                            count--;
+                        }
                     }
                 }
             });
 
             if(count>1){
                 valor++;
-            }else if(count<-1){
+            } else if(count<-1){
                 valor--;
             }
         });
@@ -65,7 +76,7 @@ function minimax(tablero, depth, maxDepth, alpha, beta, maximizingPlayer, iaPlay
     const copiaTablero=tablero.slice();
 
     if(depth===maxDepth||checkWinner(copiaTablero,TURNS.X)||checkWinner(copiaTablero,TURNS.O)){
-        const utilidad=getUtilidad(copiaTablero, iaPlayer, movimientos.slice());
+        const utilidad=getUtilidad(copiaTablero, iaPlayer, movimientos.slice(), maximizingPlayer===TURNS.X?TURNS.O:TURNS.X,depth);
         return { utilidad, posicion: null };
     }
 
