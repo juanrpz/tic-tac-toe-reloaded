@@ -9,7 +9,7 @@ export const useAIMove =()=>{
     const { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovements }=useMove();
 
     const [aiTurn,setAiTurn]=useState(null);
-    const [aiMaxDepth, setAiMaxDepth]=useState(3);
+    const [aiMaxDepth, setAiMaxDepth]=useState(null);
 
     const updateBoard=(index,isAiMove=false)=>{
         if(board[index] || winner || (aiTurn===turn&&!isAiMove)) return;
@@ -43,23 +43,26 @@ export const useAIMove =()=>{
         setTurn(TURNS.X);
         setWinner(null);
         setMovements([]);
-        handleAiTurnChange(null)
+        handleAiTurnChange(null);
+        setAiMaxDepth(null);
 
         //resetGameStorage();
     }
 
     useEffect(()=>{
-        if(turn===aiTurn){
-            setTimeout(() => {
-                const move=moveIA(board,aiMaxDepth,aiTurn,movimientos);
-                updateBoard(move.posicion,true);
-            }, 500);
+        if(aiMaxDepth){
+            if(turn===aiTurn){
+                setTimeout(() => {
+                    const move=moveIA(board,aiMaxDepth,aiTurn,movimientos);
+                    updateBoard(move.posicion,true);
+                }, 500);
+            }
         }
-    },[turn,board,aiTurn])
+    },[turn,board,aiTurn,aiMaxDepth,movimientos])
 
     const handleAiTurnChange=(turn)=>{
         setAiTurn(turn);
     }
 
-    return { resetGame, board, updateBoard, movimientos, turn, winner, aiTurn, handleAiTurnChange, IS_AI_GAME:true, setAiMaxDepth };
+    return { resetGame, board, updateBoard, movimientos, turn, winner, aiTurn, aiMaxDepth, handleAiTurnChange, IS_AI_GAME:true, setAiMaxDepth };
 }

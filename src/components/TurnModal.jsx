@@ -1,12 +1,8 @@
 import { TURNS } from "../constants";
 import { Square } from "./Square";
+import PropTypes from 'prop-types';
 
-export function TurnModal({start, setAiTurn}){
-    if(!start){
-        return null;
-    }
-
-
+export function TurnModal({setAiTurn}){
     const handleClick=(index)=>{
         if(index===0){
             setAiTurn(TURNS.O)
@@ -28,4 +24,8 @@ export function TurnModal({start, setAiTurn}){
             </div>
         </section>
     )
+}
+
+TurnModal.propTypes={
+    setAiTurn: PropTypes.func.isRequired
 }

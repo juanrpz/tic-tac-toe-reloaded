@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import { Square } from "./Square";
+import { Link } from 'react-router-dom';
 
 export const WinnerModal=({winner, turn, resetGame})=>{
     if (winner===null){
@@ -21,6 +22,7 @@ export const WinnerModal=({winner, turn, resetGame})=>{
                 }
                 <footer>
                     <button onClick={resetGame}>Reiniciar</button>
+                    <Link to='/' onClick={resetGame}>Salir del juego</Link>
                 </footer>
             </div>
         </section>

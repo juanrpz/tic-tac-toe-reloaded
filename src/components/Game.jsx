@@ -9,9 +9,11 @@ import { Footer } from './Footer';
 import { TurnModal } from './TurnModal';
 import { Link } from 'react-router-dom';
 import { IS_DEVELOPMENT } from '../config';
+import { Difficultymodal } from './DifficultyModal';
+import PropTypes from 'prop-types';
 
 export function Game({customHook}) {
-    const { resetGame, board, updateBoard, movimientos, turn, winner, aiTurn, handleAiTurnChange, IS_AI_GAME } = customHook();
+    const { resetGame, board, updateBoard, movimientos, turn, winner, aiTurn, aiMaxDepth, handleAiTurnChange, IS_AI_GAME, setAiMaxDepth } = customHook();
 
     return (
         <>
@@ -28,8 +30,14 @@ export function Game({customHook}) {
                 <section>
                     <WinnerModal winner={winner} turn={turn} resetGame={resetGame}/>
                 </section>
+                {
+                    (IS_AI_GAME && !aiMaxDepth) &&
+                    <section>
+                        <Difficultymodal start={!aiMaxDepth} setAiMaxDepth={setAiMaxDepth} />
+                    </section>
+                }
                 { 
-                    IS_AI_GAME &&
+                    (IS_AI_GAME&&!aiTurn) &&
                     <section>
                         <TurnModal start={aiTurn===null} setAiTurn={handleAiTurnChange} />
                     </section>
@@ -38,4 +46,8 @@ export function Game({customHook}) {
             { IS_AI_GAME && IS_DEVELOPMENT && <Footer movimiento={moveIA(board,3,aiTurn,movimientos.slice())} movimientos={movimientos} aiTurn={aiTurn}/> }
         </>
     )
+}
+
+Game.propTypes = {
+    customHook: PropTypes.func.isRequired,
 }
