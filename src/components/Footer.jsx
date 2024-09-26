@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 export function Footer({movimiento, movimientos, aiTurn}){
     return (
         <footer className='footer'>
@@ -11,4 +13,12 @@ export function Footer({movimiento, movimientos, aiTurn}){
             }
         </footer>
     )
+}
+
+Footer.propTypes={
+    movimiento: PropTypes.shape({
+        posicion: PropTypes.number.isRequired
+    }),
+    movimientos: PropTypes.arrayOf(PropTypes.number).isRequired,
+    aiTurn: PropTypes.number.isRequired
 }
