@@ -5,7 +5,7 @@ export function MainMenu(){
         <main className="menu">
             <h1>Menú Principal</h1>
             <Link to="/game-ia">Jugador vs IA</Link>
-            <Link to="/game-local" style={{pointerEvents:'none'}}>Jugador vs Jugador</Link>{/*TODO: eliminar style*/}
+            <Link to="/game-local" >Jugador vs Jugador</Link>
         </main>
     )
 }

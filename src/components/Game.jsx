@@ -1,73 +1,19 @@
 import '../App.css'
-import { useState } from 'react';
-import confetti from 'canvas-confetti'
 import { Square } from './Square';
 import { Board } from './Board';
 import { TURNS } from '../constants';
-import { checkWinner, getOpacityIndex } from '../logic/board';
+import { getOpacityIndex } from '../logic/board';
 import { WinnerModal } from './WinnerModal';
-import { saveGameStorage, resetGameStorage } from '../logic/storage';
 import { moveIA } from '../logic/ia';
 import { Footer } from './Footer';
 import { TurnModal } from './TurnModal';
 import { Link } from 'react-router-dom';
-import { useAIMove } from '../hooks/useAIMove';
 import { IS_DEVELOPMENT } from '../config';
+import { Difficultymodal } from './DifficultyModal';
+import PropTypes from 'prop-types';
 
-export function Game() {
-    const [board,setBoard]=useState(()=>{
-        const boardFromStorage=window.localStorage.getItem('board');
-        return boardFromStorage?JSON.parse(boardFromStorage):Array(9).fill(null);
-    });
-    const [turn, setTurn]=useState(()=>{
-        const turnFromStorage=window.localStorage.getItem('turn');
-        return turnFromStorage??TURNS.X;
-    });
-    const [winner, setWinner]=useState(null); //null no hay ganador, false empate
-
-    const [movimientos, setMovements]=useState(()=>{
-        const movimientosFromStorage=window.localStorage.getItem('movimientos');
-        return movimientosFromStorage?JSON.parse(movimientosFromStorage):[];
-    });
-
-    const updateBoard=(index,isAiMove=false)=>{
-        if(board[index] || winner || (aiTurn===turn&&!isAiMove)) return;
-        const newBoard=board.slice();
-        newBoard[index]=turn;
-        setBoard(newBoard);
-
-        const newMovimientos=[...movimientos, index];
-        if(newMovimientos.length>6){
-            const lastIndex=newMovimientos.shift();
-            newBoard[lastIndex]=null;
-        }
-        setMovements(newMovimientos);
-
-
-        const newWinner=checkWinner(newBoard,turn);
-        if(newWinner){
-            confetti();
-            setWinner(true);
-        }else if(newBoard.every(square=>square!==null)){
-            setWinner(false);
-        }else{
-            const newTurn=turn===TURNS.X?TURNS.O:TURNS.X;
-            setTurn(newTurn);
-            saveGameStorage(newBoard, newTurn,newMovimientos);
-        }
-    }
-
-    const { aiTurn, handleAiTurnChange }=useAIMove({turn, board, movimientos, updateBoard})
-
-    const resetGame=()=>{
-        setBoard(Array(9).fill(null));
-        setTurn(TURNS.X);
-        setWinner(null);
-        setMovements([]);
-        handleAiTurnChange(null)
-
-        resetGameStorage();
-    }
+export function Game({customHook}) {
+    const { resetGame, board, updateBoard, movimientos, turn, winner, aiTurn, aiMaxDepth, handleAiTurnChange, IS_AI_GAME, setAiMaxDepth } = customHook();
 
     return (
         <>
@@ -84,11 +30,24 @@ export function Game() {
                 <section>
                     <WinnerModal winner={winner} turn={turn} resetGame={resetGame}/>
                 </section>
-                <section>
-                    <TurnModal start={aiTurn===null} setAiTurn={handleAiTurnChange} />
-                </section>
+                {
+                    (IS_AI_GAME && !aiMaxDepth) &&
+                    <section>
+                        <Difficultymodal start={!aiMaxDepth} setAiMaxDepth={setAiMaxDepth} />
+                    </section>
+                }
+                { 
+                    (IS_AI_GAME&&!aiTurn) &&
+                    <section>
+                        <TurnModal start={aiTurn===null} setAiTurn={handleAiTurnChange} />
+                    </section>
+                }
             </main>
-            { IS_DEVELOPMENT&&<Footer movimiento={moveIA(board,3,aiTurn,movimientos.slice())} movimientos={movimientos} aiTurn={aiTurn}/> }
+            { IS_AI_GAME && IS_DEVELOPMENT && <Footer movimiento={moveIA(board,3,aiTurn,movimientos.slice())} movimientos={movimientos} aiTurn={aiTurn}/> }
         </>
     )
+}
+
+Game.propTypes = {
+    customHook: PropTypes.func.isRequired,
 }
