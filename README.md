@@ -1,5 +1,6 @@
 ![Vercel](https://vercelbadge.vercel.app/api/juanrpz/tic-tac-toe-reloaded)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/70ad5907fc454c6faff33cf5f3938ec0)](https://app.codacy.com?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=juanrpz_tic-tac-toe-reloaded&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=juanrpz_tic-tac-toe-reloaded)
 
 # TIC TAC TOE RELOADED
 
