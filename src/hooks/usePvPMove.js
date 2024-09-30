@@ -4,7 +4,7 @@ import { checkWinner } from "../logic/board";
 import { TURNS } from "../constants";
 
 export function usePvPMove(){
-    const { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovements }=useMove();
+    const { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovimientos }=useMove();
 
     const updateBoard=(index)=>{
         if(board[index] || winner) return;
@@ -17,7 +17,7 @@ export function usePvPMove(){
             const lastIndex=newMovimientos.shift();
             newBoard[lastIndex]=null;
         }
-        setMovements(newMovimientos);
+        setMovimientos(newMovimientos);
 
 
         const newWinner=checkWinner(newBoard,turn);
@@ -29,7 +29,6 @@ export function usePvPMove(){
         }else{
             const newTurn=turn===TURNS.X?TURNS.O:TURNS.X;
             setTurn(newTurn);
-            //saveGameStorage(newBoard, newTurn,newMovimientos);
         }
     }
 
@@ -37,9 +36,7 @@ export function usePvPMove(){
         setBoard(Array(9).fill(null));
         setTurn(TURNS.X);
         setWinner(null);
-        setMovements([]);
-
-        //resetGameStorage();
+        setMovimientos([]);
     }
 
     return { resetGame, board, updateBoard, movimientos, turn, winner, IS_AI_GAME:false };

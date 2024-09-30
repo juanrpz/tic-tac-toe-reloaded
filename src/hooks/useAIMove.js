@@ -6,7 +6,7 @@ import { checkWinner } from '../logic/board';
 import { useMove } from './useMove';
 
 export const useAIMove =()=>{
-    const { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovements }=useMove();
+    const { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovimientos }=useMove();
 
     const [aiTurn,setAiTurn]=useState(null);
     const [aiMaxDepth, setAiMaxDepth]=useState(null);
@@ -22,7 +22,7 @@ export const useAIMove =()=>{
             const lastIndex=newMovimientos.shift();
             newBoard[lastIndex]=null;
         }
-        setMovements(newMovimientos);
+        setMovimientos(newMovimientos);
 
 
         const newWinner=checkWinner(newBoard,turn);
@@ -34,7 +34,6 @@ export const useAIMove =()=>{
         }else{
             const newTurn=turn===TURNS.X?TURNS.O:TURNS.X;
             setTurn(newTurn);
-            //saveGameStorage(newBoard, newTurn,newMovimientos);
         }
     }
 
@@ -42,11 +41,9 @@ export const useAIMove =()=>{
         setBoard(Array(9).fill(null));
         setTurn(TURNS.X);
         setWinner(null);
-        setMovements([]);
+        setMovimientos([]);
         handleAiTurnChange(null);
         setAiMaxDepth(null);
-
-        //resetGameStorage();
     }
 
     useEffect(()=>{

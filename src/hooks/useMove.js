@@ -12,10 +12,10 @@ export function useMove(){
     });
     const [winner, setWinner]=useState(null); //null no hay ganador, false empate
 
-    const [movimientos, setMovements]=useState(()=>{
+    const [movimientos, setMovimientos]=useState(()=>{
         const movimientosFromStorage=window.localStorage.getItem('movimientos');
         return movimientosFromStorage?JSON.parse(movimientosFromStorage):[];
     });
 
-    return { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovements };
+    return { board, setBoard, turn, setTurn, winner, setWinner, movimientos, setMovimientos };
 }
