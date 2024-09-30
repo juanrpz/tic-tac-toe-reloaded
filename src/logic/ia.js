@@ -85,12 +85,12 @@ function minimax(tablero, depth, maxDepth, alpha, beta, maximizingPlayer, iaPlay
     let posicion=null;
     let coste=null;
     if(maximizingPlayer===iaPlayer){
-        for(let i=0; i<posiblesMovimientos.length; i++){
-            const { newTablero, newMovimientos }=simulateMove(copiaTablero, posiblesMovimientos[i], maximizingPlayer, movimientos);
+        for(let posMov of posiblesMovimientos){
+            const { newTablero, newMovimientos }=simulateMove(copiaTablero, posMov, maximizingPlayer, movimientos);
             const { utilidad }=minimax(newTablero, depth+1, maxDepth, alpha, beta, maximizingPlayer===TURNS.X?TURNS.O:TURNS.X, iaPlayer, newMovimientos);
             if(utilidad>alpha){
                 alpha=utilidad;
-                posicion=posiblesMovimientos[i];
+                posicion=posMov;
                 if(beta<=alpha){
                     return { utilidad: alpha, posicion }
                 }
@@ -98,12 +98,12 @@ function minimax(tablero, depth, maxDepth, alpha, beta, maximizingPlayer, iaPlay
         }
         coste=alpha;
     }else{
-        for(let i=0; i<posiblesMovimientos.length; i++){
-            const { newTablero, newMovimientos }=simulateMove(copiaTablero, posiblesMovimientos[i], maximizingPlayer, movimientos);
+        for(let posMov of posiblesMovimientos){
+            const { newTablero, newMovimientos }=simulateMove(copiaTablero, posMov, maximizingPlayer, movimientos);
             const { utilidad }=minimax(newTablero, depth+1, maxDepth, alpha, beta, maximizingPlayer===TURNS.X?TURNS.O:TURNS.X, iaPlayer, newMovimientos);
             if(utilidad<beta){
                 beta=utilidad;
-                posicion=posiblesMovimientos[i];
+                posicion=posMov;
                 if(beta<=alpha){
                     return { utilidad: beta, posicion }
                 }
